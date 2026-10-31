@@ -117,6 +117,8 @@ The `docs/` folder contains sample API documentation. When you change code that 
 - No overly complex logic in single functions (keep nodes small and focused)
 - No external databases for the demo (ChromaDB is file-based)
 
+##Akshay Patil
+
 ## License
 
 MIT
