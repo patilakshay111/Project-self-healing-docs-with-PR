@@ -90,11 +90,73 @@ Or run the Streamlit UI:
 streamlit run streamlit_app.py
 ```
 
-### 4. Use as a GitHub Action
+### 4. Use as a GitHub Action (Install from Marketplace)
 
-1. Copy `.github/workflows/doc-healer.yml` to your repository
-2. Add `OPENAI_API_KEY`, `SLACK_WEBHOOK_URL`, and `GITHUB_TOKEN` as repository secrets
-3. Push a PR that modifies code files - the Action will run automatically
+Add this to your repository's `.github/workflows/doc-healer.yml`:
+
+```yaml
+name: Doc Healer
+on:
+  pull_request:
+    paths:
+      - '**.py'
+      - '**.ts'
+      - '**.tsx'
+      - '**.js'
+      - '**.jsx'
+      - '**.md'
+
+jobs:
+  heal-docs:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Self-Healing Docs
+        uses: YOUR_USERNAME/self-healing-docs@v0.1
+        with:
+          openai_api_key: ${{ secrets.OPENAI_API_KEY }}
+          slack_webhook_url: ${{ secrets.SLACK_WEBHOOK_URL }}
+          confidence_threshold: '0.75'
+          auto_merge_high_confidence: 'false'
+```
+
+Replace `YOUR_USERNAME` with your GitHub username.
+
+#### Required Secrets
+
+Add these in your repository **Settings → Secrets and variables → Actions**:
+
+| Secret | Required | Description |
+|--------|----------|-------------|
+| `OPENAI_API_KEY` | Yes | Your OpenAI API key |
+| `SLACK_WEBHOOK_URL` | No | Slack webhook URL for alerts |
+| `GITHUB_TOKEN` | No | Auto-provided by GitHub (`${{ secrets.GITHUB_TOKEN }}`) |
+
+#### How to Publish to the GitHub Actions Marketplace
+
+1. Make this repository **public** (Settings → General → Danger Zone → Change repository visibility)
+2. Push a release tag (see below)
+3. GitHub automatically indexes public repos with a valid `action.yml` — your action will appear on [GitHub Marketplace](https://github.com/marketplace)
+
+#### Create and Push the v0.1 Tag
+
+```bash
+git tag -a v0.1 -m "Release v0.1: initial public version"
+git push origin v0.1
+```
+
+Users can now install your action with:
+
+```yaml
+- uses: YOUR_USERNAME/self-healing-docs@v0.1
+```
 
 ## Sample Documentation
 

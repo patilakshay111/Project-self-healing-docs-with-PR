@@ -1,5 +1,9 @@
 name: 'Self-Healing Docs'
 description: 'Detects stale documentation from code changes and auto-generates PRs with fixes'
+author: 'Akshay Patil'
+branding:
+  icon: 'file-text'
+  color: 'blue'
 inputs:
   openai_api_key:
     description: 'OpenAI API key for LLM-based staleness checking and correction'
@@ -15,7 +19,13 @@ inputs:
     description: 'Whether to auto-merge high-confidence fixes'
     required: false
     default: 'false'
-
+outputs:
+  stale_sections_found:
+    description: 'Number of stale doc sections detected'
+  corrections_generated:
+    description: 'Number of auto-generated doc corrections'
+  pr_created:
+    description: 'Whether a fix PR was created (true/false)'
 runs:
   using: 'docker'
   image: 'Dockerfile'
