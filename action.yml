@@ -1,0 +1,21 @@
+name: 'Self-Healing Docs'
+description: 'Detects stale documentation from code changes and auto-generates PRs with fixes'
+inputs:
+  openai_api_key:
+    description: 'OpenAI API key for LLM-based staleness checking and correction'
+    required: true
+  slack_webhook_url:
+    description: 'Slack webhook URL for alerts'
+    required: false
+  confidence_threshold:
+    description: 'Confidence threshold for auto-fixing vs human review'
+    required: false
+    default: '0.75'
+  auto_merge_high_confidence:
+    description: 'Whether to auto-merge high-confidence fixes'
+    required: false
+    default: 'false'
+
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
