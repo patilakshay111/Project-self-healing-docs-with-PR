@@ -1,4 +1,4 @@
-name: 'Self-Healing Docs'
+name: 'Self-Healing Technical Documentation'
 description: 'Detects stale documentation from code changes and auto-generates PRs with fixes'
 author: 'Akshay Patil'
 branding:
